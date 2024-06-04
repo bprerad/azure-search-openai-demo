@@ -79,6 +79,7 @@ $argumentList = "./app/backend/prepdocs.py $dataArg --verbose " + `
 "--openaiservice `"$env:AZURE_OPENAI_SERVICE`" --openaideployment `"$env:AZURE_OPENAI_EMB_DEPLOYMENT`" " + `
 "--openaikey `"$env:OPENAI_API_KEY`" --openaiorg `"$env:OPENAI_ORGANIZATION`" " + `
 "--documentintelligenceservice $env:AZURE_DOCUMENTINTELLIGENCE_SERVICE " + `
+#"--removeall" + `
 "$searchImagesArg $visionEndpointArg " + `
 "$adlsGen2StorageAccountArg $adlsGen2FilesystemArg $adlsGen2FilesystemPathArg  " + `
 "$tenantArg $aclArg " + `
@@ -88,4 +89,4 @@ $argumentList = "./app/backend/prepdocs.py $dataArg --verbose " + `
 
 $argumentList
 
-Start-Process -FilePath $venvPythonPath -ArgumentList $argumentList -Wait -NoNewWindow
+Start-Process -FilePath $venvPythonPath -ArgumentList $argumentList -Wait -NoNewWindow 

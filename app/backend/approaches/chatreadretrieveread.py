@@ -54,9 +54,11 @@ class ChatReadRetrieveReadApproach(ChatApproach):
 
     @property
     def system_message_chat_conversation(self):
-        return """Assistant helps the company employees with their healthcare plan questions, and questions about the employee handbook. Be brief in your answers.
-        Answer ONLY with the facts listed in the list of sources below. If there isn't enough information below, say you don't know. Do not generate answers that don't use the sources below. If asking a clarifying question to the user would help, ask the question.
-        For tabular information return it as an html table. Do not return markdown format. If the question is not in English, answer in the language used in the question.
+        return """You are polite AI assistant that helps citizens with their questions to Financial Administration of Republic of Slovenia (in Slovenian: Finančna uprava Republike Slovenije). Be brief in your answers.
+        Answer ONLY with the facts listed in the list of sources below. If there isn't enough information below, respond with "Žal na podlagi razpoložljivih podatkov ne morem odgovoriti na vaše vprašanje. Lahko pa vam pomagam z drugimi informacijami ali poskusite zastaviti drugačno vprašanje. Za več informacij obiščite spletno stran Finančne uprave Republike Slovenije (https://www.fu.gov.si)". 
+        
+        Do not generate answers that don't use the sources below. If asking a clarifying question to the user would help, ask the question.
+        For tabular information return it as an html table. Do not return markdown format. If the question is not in Slovenian, answer in the language used in the question.
         Each source has a name followed by colon and the actual information, always include the source name for each fact you use in the response. Use square brackets to reference the source, for example [info1.txt]. Don't combine sources, list each source separately, for example [info1.txt][info2.pdf].
         {follow_up_questions_prompt}
         {injected_prompt}
@@ -129,7 +131,7 @@ class ChatReadRetrieveReadApproach(ChatApproach):
             max_tokens=self.chatgpt_token_limit - len(user_query_request),
             few_shots=self.query_prompt_few_shots,
         )
-
+        """
         chat_completion: ChatCompletion = await self.openai_client.chat.completions.create(
             messages=query_messages,  # type: ignore
             # Azure OpenAI takes the deployment name as the model name
@@ -142,7 +144,8 @@ class ChatReadRetrieveReadApproach(ChatApproach):
         )
 
         query_text = self.get_search_query(chat_completion, original_user_query)
-
+        """
+        query_text = user_query_request
         # STEP 2: Retrieve relevant documents from the search index with the GPT optimized query
 
         # If retrieval mode includes vectors, compute an embedding for the query
@@ -188,30 +191,10 @@ class ChatReadRetrieveReadApproach(ChatApproach):
         )
 
         data_points = {"text": sources_content}
-
+        '''
         extra_info = {
             "data_points": data_points,
-            "thoughts": [
-                ThoughtStep(
-                    "Prompt to generate search query",
-                    [str(message) for message in query_messages],
-                    (
-                        {"model": self.chatgpt_model, "deployment": self.chatgpt_deployment}
-                        if self.chatgpt_deployment
-                        else {"model": self.chatgpt_model}
-                    ),
-                ),
-                ThoughtStep(
-                    "Search using generated search query",
-                    query_text,
-                    {
-                        "use_semantic_captions": use_semantic_captions,
-                        "use_semantic_ranker": use_semantic_ranker,
-                        "top": top,
-                        "filter": filter,
-                        "has_vector": has_vector,
-                    },
-                ),
+            "thoughts": [               
                 ThoughtStep(
                     "Search results",
                     [result.serialize_for_results() for result in results],
@@ -227,14 +210,17 @@ class ChatReadRetrieveReadApproach(ChatApproach):
                 ),
             ],
         }
+        '''        
+        extra_info = {}
 
         chat_coroutine = self.openai_client.chat.completions.create(
             # Azure OpenAI takes the deployment name as the model name
             model=self.chatgpt_deployment if self.chatgpt_deployment else self.chatgpt_model,
             messages=messages,
-            temperature=overrides.get("temperature", 0.3),
+            temperature=overrides.get("temperature", 0.0),
             max_tokens=response_token_limit,
             n=1,
             stream=should_stream,
         )
         return (extra_info, chat_coroutine)
+       

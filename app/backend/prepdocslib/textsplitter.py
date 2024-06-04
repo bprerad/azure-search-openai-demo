@@ -78,7 +78,7 @@ CJK_SENTENCE_ENDINGS = ["。", "！", "？", "‼", "⁇", "⁈", "⁉"]
 # NB: text-embedding-3-XX is the same BPE as text-embedding-ada-002
 bpe = tiktoken.encoding_for_model(ENCODING_MODEL)
 
-DEFAULT_OVERLAP_PERCENT = 10  # See semantic search article for 10% overlap performance
+DEFAULT_OVERLAP_PERCENT = 20  # See semantic search article for 10% overlap performance
 DEFAULT_SECTION_LENGTH = 1000  # Roughly 400-500 tokens for English
 
 
