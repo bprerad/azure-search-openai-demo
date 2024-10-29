@@ -32,7 +32,7 @@ class ChatApproach(Approach, ABC):
     Do not include cited source filenames and document names e.g info.txt or doc.pdf in the search query terms.
     Do not include any text inside [] or <<>> in the search query terms.
     Do not include any special characters like '+'.
-    If the question is not in English, translate the question to English before generating the search query.
+    If the question is not in Serbian Cyrilic, translate the question to Serbian Cyrilic before generating the search query in Serbian Cyrilic.
     If you cannot generate a search query, return just the number 0.
     """
 

@@ -122,8 +122,8 @@ If a user inquires about these topics, respond politely:
         use_semantic_ranker = True if overrides.get("semantic_ranker") else False
         use_semantic_captions = True if overrides.get("semantic_captions") else False
         top = overrides.get("top", 3)
-        minimum_search_score = 0.1  #overrides.get("minimum_search_score", 0.1)
-        minimum_reranker_score = 0.5 #overrides.get("minimum_reranker_score", 0.5)
+        minimum_search_score = overrides.get("minimum_search_score", 0.1)
+        minimum_reranker_score = overrides.get("minimum_reranker_score", 0.5)
         filter = self.build_filter(overrides, auth_claims)
 
         original_user_query = messages[-1]["content"]
@@ -151,7 +151,9 @@ If a user inquires about these topics, respond politely:
             }
         ]
 
+        # CURRENTLY SKIPPED
         # STEP 1: Generate an optimized keyword search query based on the chat history and the last question
+        
         query_response_token_limit = 100
         query_messages = build_messages(
             model=self.chatgpt_model,
@@ -176,17 +178,20 @@ If a user inquires about these topics, respond politely:
         )
 
         query_text = self.get_search_query(chat_completion, original_user_query)
-
+        
         # STEP 2: Retrieve relevant documents from the search index with the GPT optimized query
-
+        
         # If retrieval mode includes vectors, compute an embedding for the query
         vectors: list[VectorQuery] = []
         if use_vector_search:
             vectors.append(await self.compute_text_embedding(query_text))
+        #    vectors.append(await self.compute_text_embedding(original_user_query))
+            
 
         results = await self.search(
             top,
-            query_text,
+            #query_text,
+            original_user_query,
             filter,
             vectors,
             use_text_search,
@@ -205,7 +210,7 @@ If a user inquires about these topics, respond politely:
        #     search_results_flag = True
 
         sources_content = self.get_sources_content(results, use_semantic_captions, use_image_citation=False)
-        content = "\n".join("**Sources:")
+        content = "\n".join("**Sources:**")
         content = "\n".join(sources_content)
       
 
@@ -269,7 +274,6 @@ If a user inquires about these topics, respond politely:
                 ),
             ],
         }
-
 
         chat_coroutine = self.openai_client.chat.completions.create(
             # Azure OpenAI takes the deployment name as the model name
