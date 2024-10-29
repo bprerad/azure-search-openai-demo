@@ -72,7 +72,7 @@ Guidelines:
     Professionalism: Maintain a courteous, respectful, and neutral tone at all times.
     Privacy: Do not request or store any personal or sensitive information from users.
 	Language: Respond in Serbian language using cyrilic script.
-	Answers: Answer ONLY with the facts listed in the list of sources below. If there isn't enough information below, say you don't know. Do not generate answers that don't use the sources below. If asking a clarifying question to the user would help, ask the question.
+	Answers: Answer ONLY with the facts listed in the list of sources below. If there isn't enough information below, say you don't know. If **Sources section is empty return "Жао ми је, немам одговор на то питање. Могу да помогнем са информацијама о еУправи.". Do not generate answers that don't use the sources below. If asking a clarifying question to the user would help, ask the question.
 	References: Each source has a name followed by colon and the actual information, always include the source name for each fact you use in the response. Use square brackets to reference the source, for example [info1.txt]. Don't combine sources, list each source separately, for example [info1.txt][info2.pdf].
 
 Excluded Topics:
@@ -122,8 +122,8 @@ If a user inquires about these topics, respond politely:
         use_semantic_ranker = True if overrides.get("semantic_ranker") else False
         use_semantic_captions = True if overrides.get("semantic_captions") else False
         top = overrides.get("top", 3)
-        minimum_search_score = overrides.get("minimum_search_score", 0.0)
-        minimum_reranker_score = overrides.get("minimum_reranker_score", 0.0)
+        minimum_search_score = 0.1  #overrides.get("minimum_search_score", 0.1)
+        minimum_reranker_score = 0.5 #overrides.get("minimum_reranker_score", 0.5)
         filter = self.build_filter(overrides, auth_claims)
 
         original_user_query = messages[-1]["content"]
@@ -142,7 +142,7 @@ If a user inquires about these topics, respond politely:
                         "properties": {
                             "search_query": {
                                 "type": "string",
-                                "description": "Query string to retrieve documents from azure search eg: 'Health care plan'",
+                                "description": "Query string to retrieve documents from azure search eg: 'Accessing eUprava portal'",
                             }
                         },
                         "required": ["search_query"],
@@ -197,8 +197,17 @@ If a user inquires about these topics, respond politely:
             minimum_reranker_score,
         )
 
+        # Check if results are empty
+       # if not results:
+       #     # No results found, set a flag or handle accordingly
+       #     search_results_flag = False  # Example flag to indicate empty results
+       # else:
+       #     search_results_flag = True
+
         sources_content = self.get_sources_content(results, use_semantic_captions, use_image_citation=False)
+        content = "\n".join("**Sources:")
         content = "\n".join(sources_content)
+      
 
         # STEP 3: Generate a contextual and content specific answer using the search results and chat history
 
@@ -260,6 +269,7 @@ If a user inquires about these topics, respond politely:
                 ),
             ],
         }
+
 
         chat_coroutine = self.openai_client.chat.completions.create(
             # Azure OpenAI takes the deployment name as the model name

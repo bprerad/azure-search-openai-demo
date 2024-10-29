@@ -1,23 +1,23 @@
 {
-    "pageTitle": "Azure OpenAI + AI Search",
-    "headerTitle": "Azure OpenAI + AI Search",
-    "chat": "Chat",
-    "qa": "Ask a question",
-    "login": "Login",
-    "logout": "Logout",
-    "clearChat": "Clear chat",
+    "pageTitle": "eUprava chatbot",
+    "headerTitle": "eУправа четбот",
+    "chat": "Четбот",
+    "qa": "Питања",
+    "login": "Пријава",
+    "logout": "Одјава",
+    "clearChat": "Обриши чет",
     "history": {
-        "chatHistory": "Chat history",
-        "openChatHistory": "Open chat history",
-        "noHistory": "No chat history",
-        "deleteModalTitle": "Delete chat history",
-        "deleteModalDescription": "This action cannot be undone. Delete this chat history?",
-        "deleteLabel": "Delete",
-        "cancelLabel": "Cancel",
-        "today": "Today",
-        "yesterday": "Yesterday",
-        "last7days": "Last 7 days",
-        "last30days": "Last 30 days"
+        "chatHistory": "Историја разговора",
+        "openChatHistory": "Отвори историју разговора",
+        "noHistory": "Нема историје разговора",
+        "deleteModalTitle": "Обриши историју разговора",
+        "deleteModalDescription": "Овај корак се не може поништити. Наставите са брисањем историје разговора?",
+        "deleteLabel": "Обриши",
+        "cancelLabel": "Одустани",
+        "today": "Данас",
+        "yesterday": "Јуче",
+        "last7days": "Последњих 7 дана",
+        "last30days": "Последњих 30 дана"
     },
     "upload": {
         "fileLabel": "Upload file:",
@@ -34,13 +34,13 @@
     },
     "developerSettings": "Developer settings",
 
-    "chatEmptyStateTitle": "Chat with your data",
-    "chatEmptyStateSubtitle": "Ask anything or try an example",
+    "chatEmptyStateTitle": "Четбот еУправа",
+    "chatEmptyStateSubtitle": "поставите питање или кликните на предложена питања",
     "defaultExamples": {
-        "1": "What is included in my Northwind Health Plus plan that is not in standard?",
-        "2": "What happens in a performance review?",
-        "3": "What does a Product Manager do?",
-        "placeholder": "Type a new question (e.g. does my plan cover annual eye exams?)"
+        "1": "Како да се региструјем на еУправи",
+        "2": "Да ли могу порталу да приступим са телефона",
+        "3": "Како да продужим личну карту?",
+        "placeholder": "Упишите ново питање (нпр. Шта ми је потребно да добијем OpenBalkan ID?)"
     },
     "askTitle": "Ask your data",
     "gpt4vExamples": {
@@ -49,9 +49,9 @@
         "3": "Can you identify any correlation between oil prices and stock market trends?",
         "placeholder": "Example: Does my plan cover annual eye exams?"
     },
-    "generatingAnswer": "Generating answer",
-    "citationWithColon": "Citation:",
-    "followupQuestions": "Follow-up questions:",
+    "generatingAnswer": "Генеришем одговор",
+    "citationWithColon": "Цитат:",
+    "followupQuestions": "Слична питања:",
 
     "tooltips": {
         "submitQuestion": "Submit question",
@@ -65,9 +65,9 @@
     },
 
     "headerTexts":{
-        "thoughtProcess": "Thought Process",
-        "supportingContent": "Supporting Content",
-        "citation": "Citation"
+        "thoughtProcess": "Процес одговарања",
+        "supportingContent": "Документи",
+        "citation": "Цитати"
     },
 
     "labels": {
