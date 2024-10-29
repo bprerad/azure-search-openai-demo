@@ -121,12 +121,14 @@ class ChatApproach(Approach, ABC):
             # "2023-07-01-preview" API version has a bug where first response has empty choices
             event = event_chunk.model_dump()  # Convert pydantic model to dict
             if event["choices"]:
-                completion = {
-                    "delta": {
-                        "content": event["choices"][0]["delta"].get("content"),
-                        "role": event["choices"][0]["delta"]["role"],
+                delta = event["choices"][0]["delta"]
+                if delta:  # Check if delta is not None    
+                    completion = {
+                        "delta": {
+                            "content": event["choices"][0]["delta"].get("content"),
+                            "role": event["choices"][0]["delta"]["role"],
+                        }
                     }
-                }
                 # if event contains << and not >>, it is start of follow-up question, truncate
                 content = completion["delta"].get("content")
                 content = content or ""  # content may either not exist in delta, or explicitly be None
