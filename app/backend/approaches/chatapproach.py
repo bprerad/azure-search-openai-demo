@@ -10,18 +10,18 @@ from approaches.approach import Approach
 
 class ChatApproach(Approach, ABC):
     query_prompt_few_shots: list[ChatCompletionMessageParam] = [
-        {"role": "user", "content": "How did crypto do last year?"},
-        {"role": "assistant", "content": "Summarize Cryptocurrency Market Dynamics from last year"},
-        {"role": "user", "content": "What are my health plans?"},
-        {"role": "assistant", "content": "Show available health plans"},
+        {"role": "user", "content": "Како да приступим еуправи?"},
+        {"role": "assistant", "content": "Порталу еУправа можете приступити са рачунара или мобилног уређаја. Потребно је да у веб прегледач унесете адресу www.euprava.gov.rs. То вас доводи на почетну страницу еУправе."},
+        {"role": "user", "content": "Који све сервиси постоје"},
+        {"role": "assistant", "content": "На порталу еУправа Вам на располагању стоје стотине сервиса. Да ли имате неки специфичан захтев да могу да помогнем?"},
     ]
     NO_RESPONSE = "0"
 
     follow_up_questions_prompt_content = """Generate 3 very brief follow-up questions that the user would likely ask next.
     Enclose the follow-up questions in double angle brackets. Example:
-    <<Are there exclusions for prescriptions?>>
-    <<Which pharmacies can be ordered from?>>
-    <<What is the limit for over-the-counter medication?>>
+    <<Како да извадим личну карту?>>
+    <<Да ли могу да добијем родни лист?>>
+    <<Где да проверим где гласам?>>
     Do no repeat questions that have already been asked.
     Make sure the last question ends with ">>".
     """
